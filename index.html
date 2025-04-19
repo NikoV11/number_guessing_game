@@ -25,6 +25,13 @@
   <audio id="wrongSound" src="sounds/wrong.mp3" preload="auto"></audio>
 
   <script>
+    // Redirect to mode.html if not already there
+    if (!window.location.pathname.endsWith('mode.html')) {
+      window.location.replace('mode.html');
+    }
+  </script>
+
+  <script>
     // Get max range from localStorage or default to 10
     let maxRange = parseInt(localStorage.getItem('guessMax')) || 10;
     let secretNumber = Math.floor(Math.random() * maxRange) + 1;
