@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Mode</title>
+</head>
+<body>
+  <h1>Choose Game Mode</h1>
+  <button onclick="selectMode(10)">Guess 1-10</button>
+  <button onclick="selectMode(100)">Guess 1-100</button>
+  <script>
+    function selectMode(max) {
+      localStorage.setItem('guessMax', max);
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

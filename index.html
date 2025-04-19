@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>🎯 Guess the Number (1–10)</h1>
+  <h1 id="gameTitle">🎯 Guess the Number</h1>
   <input type="number" id="guess" min="1" max="10" />
   <br />
   <button onclick="makeGuess()">🔍 Guess</button>
   <div class="message" id="message"></div>
   <div class="scoreboard" id="scoreboard"></div>
   <button onclick="resetGame()">🔁 Play Again</button>
+  <button onclick="goToMode()">⬅️ Change Mode</button>
 
   <div class="leaderboard">
     <h2>🏆 Leaderboard (Top 5)</h2>
@@ -24,18 +25,23 @@
   <audio id="wrongSound" src="sounds/wrong.mp3" preload="auto"></audio>
 
   <script>
-    let secretNumber = Math.floor(Math.random() * 10) + 1;
+    // Get max range from localStorage or default to 10
+    let maxRange = parseInt(localStorage.getItem('guessMax')) || 10;
+    let secretNumber = Math.floor(Math.random() * maxRange) + 1;
     let attempts = 0;
     let startTime = Date.now();
     let bestGuesses = null;
     let bestTime = null;
-    const leaderboardKey = "guessingLeaderboard";
+    const leaderboardKey = "guessingLeaderboard_" + maxRange;
 
     const correctSound = document.getElementById("correctSound");
     const wrongSound = document.getElementById("wrongSound");
 
     correctSound.volume = 1.0;
     wrongSound.volume = 1.0;
+
+    document.getElementById("gameTitle").textContent = `🎯 Guess the Number (1–${maxRange})`;
+    document.getElementById("guess").setAttribute("max", maxRange);
 
     function makeGuess() {
       const input = document.getElementById("guess");
@@ -88,12 +94,16 @@
     }
 
     function resetGame() {
-      secretNumber = Math.floor(Math.random() * 10) + 1;
+      secretNumber = Math.floor(Math.random() * maxRange) + 1;
       attempts = 0;
       startTime = Date.now();
       document.getElementById("message").textContent = "";
       document.getElementById("scoreboard").textContent = "";
       document.getElementById("guess").value = "";
+    }
+
+    function goToMode() {
+      window.location.href = 'mode.html';
     }
 
     function saveToLeaderboard(name, guesses, time) {
