@@ -25,8 +25,8 @@
   <audio id="wrongSound" src="sounds/wrong.mp3" preload="auto"></audio>
 
   <script>
-    // Redirect to mode.html if not already there
-    if (!window.location.pathname.endsWith('mode.html')) {
+    // Redirect to mode.html only if no mode is selected
+    if (!localStorage.getItem('guessMax')) {
       window.location.replace('mode.html');
     }
   </script>
