@@ -1,143 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎯 Number Guessing Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 Choose Game Mode</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1 id="gameTitle">🎯 Guess the Number</h1>
-  <input type="number" id="guess" min="1" max="10" />
-  <br />
-  <button onclick="makeGuess()">🔍 Guess</button>
-  <div class="message" id="message"></div>
-  <div class="scoreboard" id="scoreboard"></div>
-  <button onclick="resetGame()">🔁 Play Again</button>
-  <button onclick="goToMode()">⬅️ Change Mode</button>
-
-  <div class="leaderboard">
-    <h2>🏆 Leaderboard (Top 5)</h2>
-    <ul class="leaderboard-list" id="leaderboardList"></ul>
+  <h1>🎯 Number Guessing Game</h1>
+  <div class="message" style="font-size:1.2rem; margin-bottom:2rem;">Select your game mode:</div>
+  <button onclick="selectMode(10)">Guess 1-10</button>
+  <button onclick="selectMode(100)">Guess 1-100</button>
+  <br><br>
+  <div style="margin-top:2rem;">
+    <span style="color:#888; font-size:0.95rem;">Choose a range to start playing. You can change the mode anytime from the game page.</span>
   </div>
-
-  <audio id="correctSound" src="sounds/correct.mp3" preload="auto"></audio>
-  <audio id="wrongSound" src="sounds/wrong.mp3" preload="auto"></audio>
-
   <script>
-    // Redirect to mode.html only if no mode is selected
-    if (!localStorage.getItem('guessMax')) {
-      window.location.replace('mode.html');
-    } else {
-      // Only run the game logic if a mode is selected
-      // Get max range from localStorage or default to 10
-      let maxRange = parseInt(localStorage.getItem('guessMax')) || 10;
-      let secretNumber = Math.floor(Math.random() * maxRange) + 1;
-      let attempts = 0;
-      let startTime = Date.now();
-      let bestGuesses = null;
-      let bestTime = null;
-      const leaderboardKey = "guessingLeaderboard_" + maxRange;
-
-      const correctSound = document.getElementById("correctSound");
-      const wrongSound = document.getElementById("wrongSound");
-
-      correctSound.volume = 1.0;
-      wrongSound.volume = 1.0;
-
-      document.getElementById("gameTitle").textContent = `🎯 Guess the Number (1–${maxRange})`;
-      document.getElementById("guess").setAttribute("max", maxRange);
-
-      function makeGuess() {
-        const input = document.getElementById("guess");
-        const guess = parseInt(input.value);
-        const message = document.getElementById("message");
-        const scoreboard = document.getElementById("scoreboard");
-        attempts++;
-
-        message.classList.remove("shake");
-        void message.offsetWidth; // Trigger reflow for animation
-
-        if (isNaN(guess)) {
-          message.textContent = "⚠️ Please enter a valid number.";
-          message.classList.add("shake");
-          wrongSound.play().catch((error) => console.error("Error playing wrong sound:", error));
-          return;
-        }
-
-        if (guess < secretNumber) {
-          message.textContent = "📉 Too low! Try again.";
-          message.classList.add("shake");
-          wrongSound.play().catch((error) => console.error("Error playing wrong sound:", error));
-        } else if (guess > secretNumber) {
-          message.textContent = "📈 Too high! Try again.";
-          message.classList.add("shake");
-          wrongSound.play().catch((error) => console.error("Error playing wrong sound:", error));
-        } else {
-          correctSound.play().catch((error) => console.error("Error playing correct sound:", error));
-          const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
-          message.textContent = `✅ Correct! The number was ${secretNumber}`;
-          message.classList.add("pop");
-
-          let recordMsg = "";
-          if (bestGuesses === null || attempts < bestGuesses) {
-            bestGuesses = attempts;
-            recordMsg += "🥇 New record: Fewest guesses!\n";
-          }
-          if (bestTime === null || timeTaken < bestTime) {
-            bestTime = timeTaken;
-            recordMsg += "⏱️ New record: Fastest time!\n";
-          }
-
-          scoreboard.textContent = `📊 ${attempts} guesses in ${timeTaken} seconds.\n${recordMsg}`;
-
-          const playerName = prompt("🎉 You won! Enter your name for the leaderboard:");
-          if (playerName) {
-            saveToLeaderboard(playerName, attempts, timeTaken);
-          }
-        }
-      }
-
-      function resetGame() {
-        secretNumber = Math.floor(Math.random() * maxRange) + 1;
-        attempts = 0;
-        startTime = Date.now();
-        document.getElementById("message").textContent = "";
-        document.getElementById("scoreboard").textContent = "";
-        document.getElementById("guess").value = "";
-      }
-
-      function goToMode() {
-        window.location.href = 'mode.html';
-      }
-
-      function saveToLeaderboard(name, guesses, time) {
-        const entry = { name, guesses, time: parseFloat(time) };
-        let leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
-        leaderboard.push(entry);
-        leaderboard.sort((a, b) => a.guesses - b.guesses || a.time - b.time);
-        leaderboard = leaderboard.slice(0, 5);
-        localStorage.setItem(leaderboardKey, JSON.stringify(leaderboard));
-        renderLeaderboard();
-      }
-
-      function renderLeaderboard() {
-        const list = document.getElementById("leaderboardList");
-        const leaderboard = JSON.parse(localStorage.getItem(leaderboardKey)) || [];
-        list.innerHTML = leaderboard
-          .map(
-            (entry, index) =>
-              `<li>#${index + 1} ${entry.name} - ${entry.guesses} guesses in ${entry.time}s</li>`
-          )
-          .join("");
-      }
-
-      // Expose functions to global scope
-      window.makeGuess = makeGuess;
-      window.resetGame = resetGame;
-      window.goToMode = goToMode;
-
-      renderLeaderboard();
+    function selectMode(max) {
+      localStorage.setItem('guessMax', max);
+      window.location.href = 'game.html';
     }
   </script>
 </body>
