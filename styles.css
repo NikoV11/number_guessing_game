@@ -1,0 +1,76 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    color: #333;
+    padding: 2rem;
+}
+
+input, button {
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    margin: 1rem 0.3rem;
+    border: none;
+    border-radius: 8px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.message {
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    min-height: 2rem;
+}
+
+/* Animation classes */
+.shake {
+    animation: shake 0.5s ease;
+}
+
+.pop {
+    animation: pop 0.4s ease-out;
+}
+
+/* Keyframes */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes pop {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.6;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+}
+
+.leaderboard {
+    margin-top: 2rem;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+.leaderboard-list li {
+    margin: 0.5rem 0;
+    font-weight: bold;
+}
