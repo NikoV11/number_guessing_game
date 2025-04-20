@@ -48,6 +48,15 @@
       document.getElementById("gameTitle").textContent = `🎯 Guess the Number (1–${maxRange})`;
       document.getElementById("guess").setAttribute("max", maxRange);
 
+      // Add event listener for Enter key on the input
+      const guessInput = document.getElementById("guess");
+      guessInput.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+          event.preventDefault(); // Prevent form submission or page reload
+          makeGuess();
+        }
+      });
+
       function makeGuess() {
         const input = document.getElementById("guess");
         const guess = parseInt(input.value);
