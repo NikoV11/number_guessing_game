@@ -67,10 +67,13 @@
         message.classList.remove("shake");
         void message.offsetWidth; // Trigger reflow for animation
 
+        // Clear the input after each guess (unless correct)
+        // Only keep the number if the guess is correct
         if (isNaN(guess)) {
           message.textContent = "⚠️ Please enter a valid number.";
           message.classList.add("shake");
           wrongSound.play().catch((error) => console.error("Error playing wrong sound:", error));
+          input.value = "";
           return;
         }
 
@@ -78,10 +81,12 @@
           message.textContent = "📉 Too low! Try again.";
           message.classList.add("shake");
           wrongSound.play().catch((error) => console.error("Error playing wrong sound:", error));
+          input.value = "";
         } else if (guess > secretNumber) {
           message.textContent = "📈 Too high! Try again.";
           message.classList.add("shake");
           wrongSound.play().catch((error) => console.error("Error playing wrong sound:", error));
+          input.value = "";
         } else {
           correctSound.play().catch((error) => console.error("Error playing correct sound:", error));
           const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
