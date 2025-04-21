@@ -9,7 +9,7 @@ let gameActive = false;
 const correctSound = new Audio('sounds/correct.MP3');
 const wrongSound = new Audio('sounds/wrong.MP3');
 correctSound.volume = 1.0;
-wrongSound.volume = 1.0;
+wrongSound.volume = 0.5;
 
 const setupDiv = document.getElementById("setup");
 const gameArea = document.getElementById("gameArea");
@@ -19,6 +19,24 @@ const guessBtn = document.getElementById("guessBtn");
 const feedback = document.getElementById("feedback");
 const historyDiv = document.getElementById("history");
 const restartBtn = document.getElementById("restartBtn");
+
+// Add event listeners for Enter key on name inputs
+const player1NameInput = document.getElementById("player1Name");
+const player2NameInput = document.getElementById("player2Name");
+
+player1NameInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    player2NameInput.focus();
+  }
+});
+
+player2NameInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("startBtn").click();
+  }
+});
 
 function startGame() {
   const p1 = document.getElementById("player1Name").value.trim();
