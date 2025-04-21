@@ -9,6 +9,7 @@ body {
     box-shadow: 0 0 16px #bbb;
     border-radius: 16px;
     min-height: 100vh;
+    transition: max-width 0.3s, padding 0.3s;
 }
 
 input, button {
@@ -110,5 +111,28 @@ button:hover {
     }
     .leaderboard {
         margin-top: 1rem;
+    }
+}
+
+@media (min-width: 601px) {
+    body {
+        max-width: 600px;
+        padding: 2.5rem 3rem;
+        box-shadow: 0 0 24px #bbb;
+        border-radius: 18px;
+    }
+    h1, h2 {
+        font-size: 2rem;
+    }
+    .message, .scoreboard, .leaderboard {
+        font-size: 1.2rem;
+    }
+    input, button {
+        font-size: 1.15rem;
+        padding: 0.8rem;
+        margin: 1rem 0.5rem;
+    }
+    .leaderboard {
+        margin-top: 2.5rem;
     }
 }
